@@ -2,33 +2,16 @@
 
 ## Livongo-specific branches
 
-* `livongo-master-contrib`
-  * Master branch for Livongo's fixes/improvements to be contributed back to the upstream https://github.com/cakesolutions/scala-kafka-client
-repo via PRs
-  * Must NOT contain any Livongo-specific changes NOT to be contributed back upstream
-  * Should be periodically synced with upstream repo as needed to pull down upstream changes
-
-* `livongo-master-internal`
-  * Master branch from which to create/publish internal Livongo artifacts to artifactory
-  * Contains:
-    * Downmerged changes from `livongo-master-contrib` branch (and thus also from upstream repo)
-    * Livongo-specific changes NOT to be merged to the upstream (e.g., for publishing artifacts to Livongo artifactory)
+As of August 2022 the upstream project looks inactive anymore. Now we use `livongo-master-internal` only.
 
 ## Livongo development workflow
 
-1. Optionally sync our forked repo with upstream repo to get latest upstream changes (sometimes we want this, sometimes we want to keep updating an older version)
-  * If do this, then downmerge from `master` branch into `livongo-master-contrib` to get those synced changes
-1. Make feature branch off `livongo-master-contrib`
-1. Make improvements on feature branch
-1. Create PR to merge into `livongo-master-contrib` and merge
-1. Create PR to downmerge just-updated `livongo-master-contrib` into `livongo-master-internal` and merge
-1. To build local or published internal artifacts:
-   1. Check out `livongo-master-internal`
-   1. Create a feature branch
-   1. Update the version number to be published (in `version.sbt`)
-   1. Create PR to merge into `livongo-master-internal` and merge
-   1. Publish the artifacts
-1. Create PR from either the feature branch or the updated `livongo-master-contrib` branch against upstream repo if appropriate 
+To build local or published internal artifacts:
+1. Check out `livongo-master-internal`
+2. Create a feature branch
+3. Update the version number to be published (in `version.sbt`)
+4. Create PR to merge into `livongo-master-internal` and merge
+5. Publish the artifacts
 
 ---
 
