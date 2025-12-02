@@ -55,16 +55,19 @@ lazy val commonSettings = Seq(
 
 lazy val kafkaTestkit = project
   .in(file("testkit"))
+  .enablePlugins(IthPublisherPlugin)
   .settings(commonSettings: _*)
 
 lazy val scalaKafkaClient = project
   .in(file("client"))
+  .enablePlugins(IthPublisherPlugin)
   .settings(commonSettings: _*)
   .dependsOn(kafkaTestkit % "test")
   .configs(IntegrationTest extend Test)
 
 lazy val scalaKafkaClientAkka = project
   .in(file("akka"))
+  .enablePlugins(IthPublisherPlugin)
   .settings(commonSettings: _*)
   .dependsOn(scalaKafkaClient)
   .dependsOn(kafkaTestkit % "test")
@@ -72,12 +75,13 @@ lazy val scalaKafkaClientAkka = project
 
 lazy val scalaKafkaClientExamples = project
   .in(file("examples"))
+  .enablePlugins(IthPublisherPlugin)
   .settings(commonSettings: _*)
   .dependsOn(scalaKafkaClientAkka)
 
 lazy val root = project
   .in(file("."))
   .settings(commonSettings: _*)
-  .enablePlugins(ScalaUnidocPlugin)
+  .enablePlugins(ScalaUnidocPlugin, IthPublisherPlugin)
   .settings(name := "scala-kafka-client-root", publishArtifact := false, publish := {}, publishLocal := {})
   .aggregate(scalaKafkaClient, scalaKafkaClientAkka, kafkaTestkit)

@@ -44,6 +44,7 @@ addSbtPlugin("com.eed3si9n"      % "sbt-unidoc"              % "0.4.1")
 addSbtPlugin("com.updateimpact"  % "updateimpact-sbt-plugin" % "2.1.3")
 addSbtPlugin("org.scoverage"     % "sbt-scoverage"           % "2.4.0")
 addSbtPlugin("livongo"          %% "sbt-build-plugins"       % "7.0.10")
+addSbtPlugin("livongo"          %% "sbt-tgps-build"          % "7.0.10")
 
 def createIthCredential(realm: String): Credentials = {
   val username =
