@@ -18,6 +18,7 @@ object KafkaProducerRecord {
     * Destination for Kafka producer records.
     */
   object Destination {
+
     /**
       * Destination by topic.
       *
@@ -37,7 +38,8 @@ object KafkaProducerRecord {
       *
       * Selects the destination for producer records to a specific topic and partition.
       */
-    def apply(topicPartition: TopicPartition): Destination = Destination(topicPartition.topic(), topicPartition.partition())
+    def apply(topicPartition: TopicPartition): Destination =
+      Destination(topicPartition.topic(), topicPartition.partition())
   }
 
   /**
@@ -58,7 +60,7 @@ object KafkaProducerRecord {
   def apply[Key, Value](topic: String, key: Option[Key], value: Value): ProducerRecord[Key, Value] =
     key match {
       case Some(k) => new ProducerRecord(topic, k, value)
-      case None => new ProducerRecord(topic, value)
+      case None    => new ProducerRecord(topic, value)
     }
 
   /**
@@ -72,12 +74,16 @@ object KafkaProducerRecord {
     * @tparam Value type of the value
     * @return producer record
     */
-    def apply[Key >: Null, Value](topic: String, key: Option[Key], value: Value,
-                          headers: Seq[Header]): ProducerRecord[Key, Value] =
-      key match {
-        case Some(k) => apply(topic, k, value, headers)
-        case None => apply(topic, value, headers)
-      }
+  def apply[Key >: Null, Value](
+    topic:   String,
+    key:     Option[Key],
+    value:   Value,
+    headers: Seq[Header]
+  ): ProducerRecord[Key, Value] =
+    key match {
+      case Some(k) => apply(topic, k, value, headers)
+      case None    => apply(topic, value, headers)
+    }
 
   /**
     * Create a producer record with topic, key, and value.
@@ -103,9 +109,8 @@ object KafkaProducerRecord {
     * @tparam Value type of the value
     * @return producer record
     */
-  def apply[Key, Value](topic: String, key: Key, value: Value,
-                        headers: Seq[Header]): ProducerRecord[Key, Value] =
-    new ProducerRecord(topic, null, key, value, headers.asJava)
+  def apply[Key, Value](topic: String, key: Key, value: Value, headers: Seq[Header]): ProducerRecord[Key, Value] =
+    new ProducerRecord(topic, null, key, value, headers.asJava) // scalastyle:ignore
 
   /**
     * Create a producer record without a key.
@@ -129,13 +134,12 @@ object KafkaProducerRecord {
     * @tparam Value type of the value
     * @return producer record
     */
-  def apply[Key >: Null, Value](topic: String, value: Value,
-                        headers: Seq[Header]): ProducerRecord[Key, Value] =
-    new ProducerRecord(topic, null, null, null, value, headers.asJava)
+  def apply[Key >: Null, Value](topic: String, value: Value, headers: Seq[Header]): ProducerRecord[Key, Value] =
+    new ProducerRecord(topic, null, null, null, value, headers.asJava) // scalastyle:ignore
 
   /**
     * Create a producer record from a topic selection, optional key, value, and optional timestamp.
-    * 
+    *
     * @param topicPartitionSelection the topic (with optional partition) where the record will be appended to
     * @param key the key that will be included in the record
     * @param value the value that will be included in the record
@@ -146,9 +150,9 @@ object KafkaProducerRecord {
     */
   def apply[Key >: Null, Value](
     topicPartitionSelection: Destination,
-    key: Option[Key] = None,
-    value: Value,
-    timestamp: Option[Long] = None
+    key:                     Option[Key]  = None,
+    value:                   Value,
+    timestamp:               Option[Long] = None
   ): ProducerRecord[Key, Value] =
     apply(topicPartitionSelection, key, value, timestamp, Seq.empty)
 
@@ -165,15 +169,15 @@ object KafkaProducerRecord {
     * @return producer record
     */
   def apply[Key >: Null, Value](
-                                 topicPartitionSelection: Destination,
-                                 key: Option[Key],
-                                 value: Value,
-                                 timestamp: Option[Long],
-                                 headers: Seq[Header]
-                               ): ProducerRecord[Key, Value] = {
-    val topic = topicPartitionSelection.topic
-    val partition = topicPartitionSelection.partition.map(i => i: java.lang.Integer).orNull
-    val nullableKey = key.orNull
+    topicPartitionSelection: Destination,
+    key:                     Option[Key],
+    value:                   Value,
+    timestamp:               Option[Long],
+    headers:                 Seq[Header]
+  ): ProducerRecord[Key, Value] = {
+    val topic             = topicPartitionSelection.topic
+    val partition         = topicPartitionSelection.partition.map(i => i: java.lang.Integer).orNull
+    val nullableKey       = key.orNull
     val nullableTimestamp = timestamp.map(i => i: java.lang.Long).orNull
 
     new ProducerRecord[Key, Value](topic, partition, nullableTimestamp, nullableKey, value, headers.asJava)
@@ -197,7 +201,11 @@ object KafkaProducerRecord {
     * @param key key of the records
     * @param values values of the records
     */
-  def fromValuesWithKey[Key, Value](topic: String, key: Option[Key], values: Seq[Value]): Seq[ProducerRecord[Key, Value]] =
+  def fromValuesWithKey[Key, Value](
+    topic:  String,
+    key:    Option[Key],
+    values: Seq[Value]
+  ): Seq[ProducerRecord[Key, Value]] =
     values.map(value => KafkaProducerRecord(topic, key, value))
 
   /**
@@ -207,8 +215,8 @@ object KafkaProducerRecord {
     * @param valuesWithTopic a sequence of topic and value pairs
     */
   def fromValuesWithTopic[Value](valuesWithTopic: Seq[(String, Value)]): Seq[ProducerRecord[Nothing, Value]] =
-    valuesWithTopic.map {
-      case (topic, value) => KafkaProducerRecord(topic, value)
+    valuesWithTopic.map { case (topic, value) =>
+      KafkaProducerRecord(topic, value)
     }
 
   /**
@@ -219,8 +227,8 @@ object KafkaProducerRecord {
     * @param keyValues a sequence of key and value pairs
     */
   def fromKeyValues[Key, Value](topic: String, keyValues: Seq[(Option[Key], Value)]): Seq[ProducerRecord[Key, Value]] =
-    keyValues.map {
-      case (key, value) => KafkaProducerRecord(topic, key, value)
+    keyValues.map { case (key, value) =>
+      KafkaProducerRecord(topic, key, value)
     }
 
   /**
@@ -228,8 +236,10 @@ object KafkaProducerRecord {
     *
     * @param keyValuesWithTopic a sequence of topic, key, and value triples.
     */
-  def fromKeyValuesWithTopic[Key, Value](keyValuesWithTopic: Iterable[(String, Option[Key], Value)]): Iterable[ProducerRecord[Key, Value]] =
-    keyValuesWithTopic.map {
-      case (topic, key, value) => KafkaProducerRecord(topic, key, value)
+  def fromKeyValuesWithTopic[Key, Value](
+    keyValuesWithTopic: Iterable[(String, Option[Key], Value)]
+  ): Iterable[ProducerRecord[Key, Value]] =
+    keyValuesWithTopic.map { case (topic, key, value) =>
+      KafkaProducerRecord(topic, key, value)
     }
 }

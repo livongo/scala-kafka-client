@@ -1,1 +1,1 @@
-ThisBuild / version := "2.4.0-livongo-0.2.1"
+ThisBuild / version := "2.4.0-livongo-0.3.0"
