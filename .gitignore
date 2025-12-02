@@ -1,4 +1,14 @@
 .idea
+.fleet
+.vscode
+.bloop
+.bsp
+.metals
+
 target
 project/target
+
+metals.sbt
+*.iml
+
 .DS_Store
