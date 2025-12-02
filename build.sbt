@@ -1,12 +1,12 @@
 
 lazy val commonSettings = Seq(
   organization := "net.cakesolutions",
-  scalaVersion := "2.12.10",
-  crossScalaVersions := Seq("2.11.12", "2.12.10", "2.13.1"),
+  scalaVersion := "2.12.20",
+  crossScalaVersions := Seq("2.11.12", "2.12.20", "2.13.17"),
   publishMavenStyle := true,
   //  resolvers += "Apache Staging" at "https://repository.apache.org/content/groups/staging/",
   resolvers += Resolver.bintrayRepo("mockito", "maven"),
-  scalacOptions in Compile ++= Seq(
+  Compile / scalacOptions ++= Seq(
     "-encoding", "UTF-8",
     "-target:jvm-1.8",
     "-feature",
@@ -19,8 +19,8 @@ lazy val commonSettings = Seq(
     case Some((2, 13)) => Seq()
     case _ => Seq("-Xfuture", "-Ywarn-unused-import", "-Ywarn-nullary-unit")
   }),
-  scalacOptions in(Compile, doc) ++= Seq("-groups", "-implicits"),
-  javacOptions in(Compile, doc) ++= Seq("-notimestamp", "-linksource"),
+  Compile / doc / scalacOptions ++= Seq("-groups", "-implicits"),
+  Compile / doc / javacOptions  ++= Seq("-notimestamp", "-linksource"),
   autoAPIMappings := true,
 
   //  publishTo :=
@@ -34,12 +34,11 @@ lazy val commonSettings = Seq(
   //    )
   //  else
 
-  parallelExecution in Test := false,
-  parallelExecution in IntegrationTest := true,
+  Test / parallelExecution := false,
+  IntegrationTest / parallelExecution := true,
+  Test / publishArtifact := false,
 
-  publishArtifact in Test := false,
-
-  pomExtra := 
+  pomExtra :=
     <developers>
       <developer>
         <id>simon</id>

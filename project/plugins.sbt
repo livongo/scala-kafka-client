@@ -1,5 +1,8 @@
 logLevel := Level.Warn
 
+// Resolve scala-xml version conflict between sbt-scoverage (2.3.0) and older plugins (1.0.6)
+ThisBuild / libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always
+
 resolvers ++= Seq(
   Resolver.url(
     "Artifactory ivy",
@@ -17,6 +20,6 @@ addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.1")
 
 addSbtPlugin("com.updateimpact" % "updateimpact-sbt-plugin" % "2.1.3")
 
-addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.5.1")
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "2.2.0")
 
 addSbtPlugin("livongo" %% "build-plugins" % "4.2.0")
