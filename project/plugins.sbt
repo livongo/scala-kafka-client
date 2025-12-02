@@ -20,6 +20,6 @@ addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.1")
 
 addSbtPlugin("com.updateimpact" % "updateimpact-sbt-plugin" % "2.1.3")
 
-addSbtPlugin("org.scoverage" % "sbt-scoverage" % "2.2.0")
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "2.4.0")
 
 addSbtPlugin("livongo" %% "build-plugins" % "4.2.0")
