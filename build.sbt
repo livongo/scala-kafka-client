@@ -2,8 +2,8 @@
 lazy val commonSettings = Seq(
   organization := "net.cakesolutions",
   scalaVersion := "2.12.20",
-  crossScalaVersions := Seq("2.11.12", "2.12.20", "2.13.17"),
-  publishMavenStyle := true,
+  crossScalaVersions := Seq("2.12.20", "2.13.17"),
+  publishMavenStyle  := true,
   //  resolvers += "Apache Staging" at "https://repository.apache.org/content/groups/staging/",
   resolvers += Resolver.bintrayRepo("mockito", "maven"),
   Compile / scalacOptions ++= Seq(
