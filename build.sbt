@@ -52,9 +52,7 @@ lazy val commonSettings = Seq(
       </developer>
     </developers>,
 
-  licenses := ("MIT", url("http://opensource.org/licenses/MIT")) :: Nil,
-//  dependencyOverrides += "org.scala-lang.modules" %% "scala-xml" % "1.0.6"
-  libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always
+  licenses := ("MIT", url("http://opensource.org/licenses/MIT")) :: Nil
 )
 
 lazy val kafkaTestkit = project.in(file("testkit"))

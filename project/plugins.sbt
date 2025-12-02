@@ -6,11 +6,10 @@ resolvers ++= Seq(
     url("https://artifactory.intouchhealth.io/artifactory/sbt/")
   )(Resolver.ivyStylePatterns)
 )
+
 libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always
 
 addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.9.0")
-
-//addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.5.4")
 
 addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.10")
 
@@ -19,9 +18,5 @@ addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.1")
 addSbtPlugin("com.updateimpact" % "updateimpact-sbt-plugin" % "2.1.3")
 
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "2.4.2")
-//addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.9.3")
-//addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.0")
-//addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.5.1")
-//libraryDependencies += "org.scoverage" % "sbt-scoverage_2.12" % "1.6.0"
 
 addSbtPlugin("livongo" %% "build-plugins" % "4.2.0")
