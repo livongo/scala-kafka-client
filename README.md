@@ -1,17 +1,8 @@
 # Livongo README Prefix
 
-## Livongo-specific branches
+> As of August 2022 the upstream project looks inactive anymore.
 
-As of August 2022 the upstream project looks inactive anymore. Now we use `livongo-master-internal` only.
-
-## Livongo development workflow
-
-To build local or published internal artifacts:
-1. Check out `livongo-master-internal`
-2. Create a feature branch
-3. Update the version number to be published (in `version.sbt`)
-4. Create PR to merge into `livongo-master-internal` and merge
-5. Publish the artifacts
+> We no longer support Scala 2.11
 
 ---
 
