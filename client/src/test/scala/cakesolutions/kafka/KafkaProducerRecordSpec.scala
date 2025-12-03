@@ -18,9 +18,9 @@ class KafkaProducerRecordSpec extends AnyFlatSpecLike with Matchers {
   type K = String
   type V = UUID
   private val topic = "scala-kafka-client"
-  private val k = "west"
-  private val v = UUID.randomUUID()
-  private val dest = Destination(topic = topic)
+  private val k     = "west"
+  private val v     = UUID.randomUUID()
+  private val dest  = Destination(topic = topic)
 
   "apply[Key >: Null, Value](topic: String, key: Option[Key], value: Value)" should "create the specified record" in {
     val rec = KafkaProducerRecord(topic, Some(k), v)
@@ -57,7 +57,7 @@ class KafkaProducerRecordSpec extends AnyFlatSpecLike with Matchers {
   "apply[Key >: Null, Value](topic: String, value: Value)" should "create the specified record" in {
     val rec = KafkaProducerRecord[K, V](topic, v)
     rec.topic() shouldBe topic
-    rec.key() shouldBe null
+    rec.key() shouldBe null // scalastyle:ignore
     rec.value() shouldBe v
     rec.headers().asScala.toSeq shouldBe Seq.empty
   }
@@ -65,7 +65,7 @@ class KafkaProducerRecordSpec extends AnyFlatSpecLike with Matchers {
   "apply[Key >: Null, Value](topic: String, value: Value, headers: Seq[Header])" should "create the specified record" in {
     val rec = KafkaProducerRecord[K, V](topic, v, headers)
     rec.topic() shouldBe topic
-    rec.key() shouldBe null
+    rec.key() shouldBe null // scalastyle:ignore
     rec.value() shouldBe v
     rec.headers().asScala.toSeq shouldBe headers
   }

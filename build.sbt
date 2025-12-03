@@ -1,13 +1,13 @@
-
 lazy val commonSettings = Seq(
-  organization := "net.cakesolutions",
-  scalaVersion := "2.12.10",
-  crossScalaVersions := Seq("2.11.12", "2.12.10", "2.13.1"),
-  publishMavenStyle := true,
+  organization       := "net.cakesolutions",
+  scalaVersion       := "2.12.20",
+  crossScalaVersions := Seq("2.12.20", "2.13.17"),
+  publishMavenStyle  := true,
   //  resolvers += "Apache Staging" at "https://repository.apache.org/content/groups/staging/",
   resolvers += Resolver.bintrayRepo("mockito", "maven"),
-  scalacOptions in Compile ++= Seq(
-    "-encoding", "UTF-8",
+  Compile / scalacOptions ++= Seq(
+    "-encoding",
+    "UTF-8",
     "-target:jvm-1.8",
     "-feature",
     "-deprecation",
@@ -17,14 +17,14 @@ lazy val commonSettings = Seq(
     "-Ywarn-unused"
   ) ++ (CrossVersion.partialVersion(scalaVersion.value) match {
     case Some((2, 13)) => Seq()
-    case _ => Seq("-Xfuture", "-Ywarn-unused-import", "-Ywarn-nullary-unit")
+    case _             => Seq("-Xfuture", "-Ywarn-unused-import", "-Ywarn-nullary-unit")
   }),
-  scalacOptions in(Compile, doc) ++= Seq("-groups", "-implicits"),
-  javacOptions in(Compile, doc) ++= Seq("-notimestamp", "-linksource"),
+  Compile / doc / scalacOptions ++= Seq("-groups", "-implicits"),
+  Compile / doc / javacOptions ++= Seq("-notimestamp", "-linksource"),
   autoAPIMappings := true,
 
   //  publishTo :=
-  //TODO publish snapshots to OSS
+  // TODO publish snapshots to OSS
   //  if (Version.endsWith("-SNAPSHOT"))
   //    Seq(
   //      publishTo := Some("Artifactory Realm" at "http://oss.jfrog.org/artifactory/oss-snapshot-local"),
@@ -34,12 +34,10 @@ lazy val commonSettings = Seq(
   //    )
   //  else
 
-  parallelExecution in Test := false,
-  parallelExecution in IntegrationTest := true,
-
-  publishArtifact in Test := false,
-
-  pomExtra := 
+  Test / parallelExecution            := false,
+  IntegrationTest / parallelExecution := true,
+  Test / publishArtifact              := false,
+  pomExtra :=
     <developers>
       <developer>
         <id>simon</id>
@@ -52,30 +50,38 @@ lazy val commonSettings = Seq(
         <url>https://github.com/jkpl</url>
       </developer>
     </developers>,
-
   licenses := ("MIT", url("http://opensource.org/licenses/MIT")) :: Nil
 )
 
-lazy val kafkaTestkit = project.in(file("testkit"))
+lazy val kafkaTestkit = project
+  .in(file("testkit"))
+  .enablePlugins(IthPublisherPlugin)
   .settings(commonSettings: _*)
 
-lazy val scalaKafkaClient = project.in(file("client"))
+lazy val scalaKafkaClient = project
+  .in(file("client"))
+  .enablePlugins(IthPublisherPlugin)
   .settings(commonSettings: _*)
   .dependsOn(kafkaTestkit % "test")
   .configs(IntegrationTest extend Test)
 
-lazy val scalaKafkaClientAkka = project.in(file("akka"))
+lazy val scalaKafkaClientAkka = project
+  .in(file("akka"))
+  .enablePlugins(IthPublisherPlugin)
   .settings(commonSettings: _*)
   .dependsOn(scalaKafkaClient)
   .dependsOn(kafkaTestkit % "test")
   .configs(IntegrationTest extend Test)
 
-lazy val scalaKafkaClientExamples = project.in(file("examples"))
+lazy val scalaKafkaClientExamples = project
+  .in(file("examples"))
+  .enablePlugins(IthPublisherPlugin)
   .settings(commonSettings: _*)
   .dependsOn(scalaKafkaClientAkka)
 
-lazy val root = project.in(file("."))
+lazy val root = project
+  .in(file("."))
   .settings(commonSettings: _*)
-  .enablePlugins(ScalaUnidocPlugin, ArtifactoryPublisherPlugin)
+  .enablePlugins(ScalaUnidocPlugin, IthPublisherPlugin)
   .settings(name := "scala-kafka-client-root", publishArtifact := false, publish := {}, publishLocal := {})
   .aggregate(scalaKafkaClient, scalaKafkaClientAkka, kafkaTestkit)
