@@ -65,7 +65,11 @@ object KafkaProducerActor {
     * @tparam K key serializer type
     * @tparam V value serializer type
     */
-  def props[K: TypeTag, V: TypeTag](conf: Config, keySerializer: Serializer[K], valueSerializer: Serializer[V]): Props = {
+  def props[K: TypeTag, V: TypeTag](
+    conf:            Config,
+    keySerializer:   Serializer[K],
+    valueSerializer: Serializer[V]
+  ): Props = {
     props(KafkaProducer.Conf(conf, keySerializer, valueSerializer))
   }
 
@@ -90,17 +94,25 @@ object KafkaProducerActor {
     * @tparam K key serializer type
     * @tparam V value serializer type
     */
-  def propsWithMatcher[K, V](conf: Config, keySerializer: Serializer[K], valueSerializer: Serializer[V], matcher: Matcher[K, V]): Props = {
+  def propsWithMatcher[K, V](
+    conf:            Config,
+    keySerializer:   Serializer[K],
+    valueSerializer: Serializer[V],
+    matcher:         Matcher[K, V]
+  ): Props = {
     propsWithMatcher(KafkaProducer.Conf(conf, keySerializer, valueSerializer), matcher)
   }
 }
 
-private class KafkaProducerActor[K, V](producerConf: KafkaProducer.Conf[K, V], matcher: KafkaProducerActor.Matcher[K, V])
-  extends Actor with ActorLogging {
+private class KafkaProducerActor[K, V](
+  producerConf: KafkaProducer.Conf[K, V],
+  matcher:      KafkaProducerActor.Matcher[K, V]
+) extends Actor
+    with ActorLogging {
 
   import context.dispatcher
 
-  type Record = ProducerRecord[K, V]
+  type Record  = ProducerRecord[K, V]
   type Records = Iterable[Record]
 
   private val producer =
@@ -145,6 +157,6 @@ private class KafkaProducerActor[K, V](producerConf: KafkaProducer.Conf[K, V], m
 }
 
 final class KafkaProducerInitFail(
-  message: String = "Error occurred while initializing Kafka producer!",
-  cause: Throwable = null
+  message: String    = "Error occurred while initializing Kafka producer!",
+  cause:   Throwable = null // scalastyle:ignore
 ) extends Exception(message, cause)

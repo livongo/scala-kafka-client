@@ -31,11 +31,11 @@ object KafkaSerializer {
   *
   * @param f the function that (statelessly) performs the deserialization
   */
-private class FunDeserializer[T](f: Array[Byte] ⇒ T) extends Deserializer[T] {
+private class FunDeserializer[T](f: Array[Byte] => T) extends Deserializer[T] {
 
-  override def configure(configs: util.Map[String, _], isKey: Boolean): Unit = { }
+  override def configure(configs: util.Map[String, _], isKey: Boolean): Unit = {}
 
-  override def close(): Unit = { }
+  override def close(): Unit = {}
 
   override def deserialize(topic: String, data: Array[Byte]): T = f(data)
 }
@@ -47,9 +47,9 @@ private class FunDeserializer[T](f: Array[Byte] ⇒ T) extends Deserializer[T] {
   */
 private class FunSerializer[T](f: T => Array[Byte]) extends Serializer[T] {
 
-  override def configure(configs: util.Map[String, _], isKey: Boolean): Unit = { }
+  override def configure(configs: util.Map[String, _], isKey: Boolean): Unit = {}
 
   override def serialize(topic: String, data: T): Array[Byte] = f(data)
 
-  override def close(): Unit = { }
+  override def close(): Unit = {}
 }

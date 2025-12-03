@@ -3,7 +3,7 @@ package cakesolutions.kafka
 import org.apache.kafka.clients.consumer.ConsumerRecords
 import org.scalatest.concurrent.Waiters.Waiter
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext.Implicits.global // scalastyle:ignore
 import org.slf4j.LoggerFactory
 
 import scala.collection.JavaConverters._
@@ -15,21 +15,25 @@ class KafkaConsumerSpec extends KafkaIntSpec {
 
   private val log = LoggerFactory.getLogger(getClass)
 
-  private val serializer = (msg: String) => msg.getBytes
+  private val serializer   = (msg: String) => msg.getBytes
   private val deserializer = (bytes: Array[Byte]) => new String(bytes)
 
   val consumerConfig: KafkaConsumer.Conf[String, String] = {
-    KafkaConsumer.Conf(KafkaDeserializer(deserializer),
+    KafkaConsumer.Conf(
+      KafkaDeserializer(deserializer),
       KafkaDeserializer(deserializer),
       bootstrapServers = s"localhost:$kafkaPort",
-      groupId = randomString,
-      enableAutoCommit = false)
+      groupId          = randomString,
+      enableAutoCommit = false
+    )
   }
 
   val producerConfig: KafkaProducer.Conf[String, String] = {
-    KafkaProducer.Conf(KafkaSerializer(serializer),
+    KafkaProducer.Conf(
       KafkaSerializer(serializer),
-      bootstrapServers = s"localhost:$kafkaPort")
+      KafkaSerializer(serializer),
+      bootstrapServers = s"localhost:$kafkaPort"
+    )
   }
 
   "KafkaConsumer and KafkaProducer with Function serializers" should "deliver and consume a message" in {
@@ -55,7 +59,7 @@ class KafkaConsumerSpec extends KafkaIntSpec {
   }
 
   "Kafka producer with bad serializer" should "return a failed future" in {
-    val w = new Waiter
+    val w     = new Waiter
     val topic = randomString
     log.info(s"Using topic [$topic] and kafka port [$kafkaPort]")
 

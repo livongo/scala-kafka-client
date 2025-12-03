@@ -1,3 +1,11 @@
+# Livongo README Prefix
+
+> As of August 2022 the upstream project looks inactive anymore.
+
+> We no longer support Scala 2.11
+
+---
+
 # Scala support for Apache Kafka's Java client library 0.9.0.x - 2.3.1
 
 [![Join the chat at https://gitter.im/cakesolutions/scala-kafka-client](https://badges.gitter.im/cakesolutions/scala-kafka-client.svg)](https://gitter.im/cakesolutions/scala-kafka-client?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
